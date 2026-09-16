@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>NetTape</title>
+
+<style>
+body {
+    margin: 0;
+    background: white;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+header {
+    background: #eeeeee;
+    border-bottom: 1px solid #cccccc;
+    padding: 12px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: blue;
+}
+
+.search {
+    margin-top: 10px;
+}
+
+main {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.upload {
+    border: 1px solid #cccccc;
+    padding: 20px;
+    background: #f8f8f8;
+}
+
+input, button {
+    margin: 8px 0;
+    padding: 8px;
+}
+
+button {
+    cursor: pointer;
+}
+
+.video {
+    border-top: 1px solid #cccccc;
+    margin-top: 20px;
+    padding-top: 15px;
+}
+
+video {
+    max-width: 100%;
+    width: 500px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">NetTape</div>
+    <div class="search">
+        <input type="text" placeholder="Search videos">
+        <button>Search</button>
+    </div>
+</header>
+
+<main>
+
+<h2>Upload Video</h2>
+
+<div class="upload">
+    <input id="title" type="text"
+           placeholder="Video title">
+
+    <br>
+
+    <input id="file" type="file"
+           accept="video/*">
+
+    <br>
+
+    <button onclick="uploadVideo()">
+        Upload Video
+    </button>
+</div>
+
+<div id="videos"></div>
+
+</main>
+
+<script>
+function uploadVideo() {
+
+    const title = document.getElementById("title").value;
+    const file = document.getElementById("file").files[0];
+
+    if (!file || !title) {
+        alert("Enter title and select video!");
+        return;
+    }
+
+    const url = URL.createObjectURL(file);
+
+    const date = new Date().toLocaleDateString(
+        "en-US",
+        {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        }
+    );
+
+    const video = document.createElement("div");
+    video.className = "video";
+
+    video.innerHTML = `
+        <h3>${title}</h3>
+        <p>Uploaded: ${date}</p>
+        <video controls src="${url}"></video>
+    `;
+
+    document.getElementById("videos")
+        .prepend(video);
+
+    document.getElementById("title").value = "";
+    document.getElementById("file").value = "";
+}
+</script>
+
+</body>
+</html>
